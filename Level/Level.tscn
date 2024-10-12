@@ -1,0 +1,118 @@
+[gd_scene load_steps=10 format=3 uid="uid://b1vxahn36rjtv"]
+
+[ext_resource type="Script" path="res://Level/Level.gd" id="1_hfe5q"]
+[ext_resource type="PackedScene" uid="uid://c305saxx8iueg" path="res://Paddle/Paddle.tscn" id="1_oajvu"]
+[ext_resource type="PackedScene" uid="uid://b5ujbtdep4dmq" path="res://Ball/Ball.tscn" id="2_4m7at"]
+[ext_resource type="FontFile" uid="uid://csx7dlrsvo7md" path="res://Fonts/04B_03__.TTF" id="3_nm8aq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3ulnk"]
+load_path = "res://.godot/imported/dash.png-d70fde01b0a90a9d64c874a14548d602.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_od51l"]
+size = Vector2(224, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qnn0l"]
+size = Vector2(224, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mssx1"]
+size = Vector2(224, 107)
+
+[sub_resource type="Theme" id="Theme_nutuj"]
+default_font = ExtResource("3_nm8aq")
+default_font_size = 0
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_hfe5q")
+ball = ExtResource("2_4m7at")
+
+[node name="Colorrect" type="ColorRect" parent="."]
+offset_left = -256.0
+offset_top = -225.0
+offset_right = 768.0
+offset_bottom = 799.0
+color = Color(0.0666667, 0.0196078, 0.180392, 1)
+
+[node name="Divider" type="Polygon2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(158, 0)
+texture = SubResource("CompressedTexture2D_3ulnk")
+polygon = PackedVector2Array(0, 16, 0, 208, 4, 208, 4, 16)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+position = Vector2(160, 112)
+
+[node name="polygon" type="Polygon2D" parent="Walls"]
+position = Vector2(-160, -112)
+texture = SubResource("CompressedTexture2D_3ulnk")
+invert_enabled = true
+invert_border = 2.0
+polygon = PackedVector2Array(48, 208, 48, 16, 272, 16, 272, 208)
+
+[node name="high_wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -104)
+shape = SubResource("RectangleShape2D_od51l")
+
+[node name="low_wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 104)
+shape = SubResource("RectangleShape2D_od51l")
+
+[node name="Goal1" type="Area2D" parent="."]
+position = Vector2(160, 112)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal1"]
+position = Vector2(0.999985, -171)
+shape = SubResource("RectangleShape2D_qnn0l")
+debug_color = Color(0.711101, 0.481869, 0.161758, 0.42)
+
+[node name="Goal2" type="Area2D" parent="."]
+position = Vector2(160, 112)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal2"]
+position = Vector2(2.28882e-05, 166.5)
+shape = SubResource("RectangleShape2D_mssx1")
+debug_color = Color(0.962261, 0.15125, 0.31838, 0.42)
+
+[node name="Paddle1" parent="." instance=ExtResource("1_oajvu")]
+position = Vector2(64, 79)
+custom_color = Color(0.964706, 1, 0.301961, 1)
+
+[node name="Paddle2" parent="." instance=ExtResource("1_oajvu")]
+position = Vector2(258, 86)
+player = 1
+custom_color = Color(0.975626, 0.233866, 0.364784, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label1" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 56.0
+offset_bottom = 29.0
+scale = Vector2(0.8, 0.8)
+theme = SubResource("Theme_nutuj")
+text = "Left: 0"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 267.335
+offset_top = 6.0
+offset_right = 331.335
+offset_bottom = 29.0
+scale = Vector2(0.8, 0.8)
+theme = SubResource("Theme_nutuj")
+text = "Right: 0"
+
+[connection signal="body_exited" from="Goal1" to="." method="_on_goal_1_body_exited"]
+[connection signal="body_exited" from="Goal2" to="." method="_on_goal_2_body_exited"]

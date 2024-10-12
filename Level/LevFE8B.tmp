@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1vxahn36rjtv"]
+
+[ext_resource type="PackedScene" uid="uid://c305saxx8iueg" path="res://0Pong/Paddle/Paddle.tscn" id="4_85plo"]
+
+[sub_resource type="GDScript" id="GDScript_cq6mg"]
+script/source = "extends Node2D
+
+@onready
+var paddle_cpu: PaddleCpu = $paddle_cpu
+
+@onready
+var paddle_two: Paddle = $paddle_two
+
+
+func _ready() -> void:
+	Game.state_changed.connect(_on_game_state_changed)
+	
+	
+func _on_game_state_changed(game_state: Game.GameState) -> void:
+	if Game.is_player_two_cpu:
+		paddle_cpu.process_mode = Node.PROCESS_MODE_INHERIT
+		paddle_cpu.visible = true
+		
+		paddle_two.process_mode = Node.PROCESS_MODE_DISABLED
+		paddle_two.visible = false
+	else:
+		paddle_cpu.process_mode = Node.PROCESS_MODE_DISABLED
+		paddle_cpu.visible = false
+		
+		paddle_two.process_mode = Node.PROCESS_MODE_INHERIT
+		paddle_two.visible = true
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3ulnk"]
+load_path = "res://.godot/imported/dash.png-d70fde01b0a90a9d64c874a14548d602.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_od51l"]
+size = Vector2(224, 16)
+
+[node name="stage" type="Node2D"]
+script = SubResource("GDScript_cq6mg")
+
+[node name="divider" type="Polygon2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(158, 0)
+texture = SubResource("CompressedTexture2D_3ulnk")
+polygon = PackedVector2Array(0, 16, 0, 208, 4, 208, 4, 16)
+
+[node name="walls" type="StaticBody2D" parent="."]
+position = Vector2(160, 112)
+collision_layer = 4
+collision_mask = 3
+
+[node name="polygon" type="Polygon2D" parent="walls"]
+position = Vector2(-160, -112)
+texture = SubResource("CompressedTexture2D_3ulnk")
+invert_enabled = true
+invert_border = 2.0
+polygon = PackedVector2Array(48, 208, 48, 16, 272, 16, 272, 208)
+
+[node name="high_wall" type="CollisionShape2D" parent="walls"]
+position = Vector2(0, -104)
+shape = SubResource("RectangleShape2D_od51l")
+
+[node name="low_wall" type="CollisionShape2D" parent="walls"]
+position = Vector2(0, 104)
+shape = SubResource("RectangleShape2D_od51l")
+
+[node name="Paddle1" parent="." instance=ExtResource("4_85plo")]
+position = Vector2(64, 79)
