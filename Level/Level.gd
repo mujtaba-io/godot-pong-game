@@ -14,10 +14,7 @@ func _ready():
 	var ball_instance = ball.instantiate()
 	add_child(ball_instance)
 
-	ball_instance.global_position = Vector2(
-		get_viewport().size.x / 4,
-		get_viewport().size.y / 4
-	)
+	ball_instance.position = get_viewport_rect().size / 2
 
 	current_ball = ball_instance
 
@@ -28,10 +25,7 @@ func _process(delta):
 		var ball_instance = ball.instantiate()
 		add_child(ball_instance)
 		
-		ball_instance.global_position = Vector2(
-			get_viewport().size.x / 4,
-			get_viewport().size.y / 4
-		)
+		ball_instance.position = get_viewport_rect().size / 2
 		
 		current_ball = ball_instance
 

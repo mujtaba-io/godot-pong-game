@@ -6,7 +6,6 @@
 [ext_resource type="FontFile" uid="uid://csx7dlrsvo7md" path="res://Fonts/04B_03__.TTF" id="3_nm8aq"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3ulnk"]
-load_path = "res://.godot/imported/dash.png-d70fde01b0a90a9d64c874a14548d602.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_od51l"]
 size = Vector2(224, 16)

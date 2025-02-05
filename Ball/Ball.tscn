@@ -17,12 +17,12 @@ contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("1_3nxyw")
 
-[node name="collision_shape_2d" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_pc8pe")
-
 [node name="sprite_2d" type="Sprite2D" parent="."]
 position = Vector2(0.41, 0.32)
 scale = Vector2(0.665, 0.665)
 texture = ExtResource("1_lyxar")
+
+[node name="collision_shape_2d" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pc8pe")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
